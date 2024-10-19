@@ -20,8 +20,8 @@ function App() {
 
 function CreateTodo(state: State) {
     return h("div", {}, [
-        {tag: "input", props: {}, children: [ null ] },
-        {tag: "button", props: {}, children: [ "Add Todo" ] }
+        h("input", {}, [ null ]),
+        h("button", {}, [ "Add Todo" ]),
     ]);
 }
 
@@ -38,9 +38,9 @@ function TodoItem(todo: string, indexInList: number, editingIndexes: Set<number>
 
 function TodoInEditMode(todo: string, indexInList: number) {
     return h("div", {}, [
-        {tag: "input", props: {}, children: [ todo ] },
-        {tag: "button", props: {}, children: [ "Save" ] },
-        {tag: "button", props: {}, children: [ "Cancel" ] }
+        h("input", {}, [ todo ]),
+        h("button", {}, [ "Save" ]),
+        h("button", {}, [ "Cancel" ]),
     ]);
 }
 

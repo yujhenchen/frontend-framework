@@ -6,25 +6,28 @@ export const DOM_TYPES = {
     FRAGMENT: 'fragment',
 } as const;
 
-// TODO: make these types and interfaces consistency
 type PropsType = Record<string | number | symbol, unknown>;
 
-type VirtualNodeType = ReturnType<typeof h>;
+export interface VirtualNode {
+    tag: string,
+    props: PropsType,
+    children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>,
+    type: typeof DOM_TYPES.ELEMENT
+}
 
-interface VirtualFragmentNode {
-    children: Array<VirtualNodeType | VirtualFragmentNode>;
+export interface VirtualFragmentNode {
+    children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>,
     type: typeof DOM_TYPES.FRAGMENT;
 }
 
-export type ElementNodeType = {
-    tag: string,
-    props: PropsType,
-    children: Array<null | ElementNodeType| string>,
-};
+export interface VirtualTextNode {
+    type: typeof DOM_TYPES.TEXT,
+    value: string
+}
 
-// return a virtual node object
-// TODO: what should be the data type of children
-export function h(tag: string, props: PropsType = {}, children: Array<null | ElementNodeType | string>) {
+// NOTE: return a virtual node object
+export function h(tag: string, props: PropsType = {}, 
+    children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>) {
     return {
         tag,
         props,
@@ -33,7 +36,7 @@ export function h(tag: string, props: PropsType = {}, children: Array<null | Ele
     }
 }
 
-function mapTextNodes(children: Array<null | ElementNodeType | string>) {
+function mapTextNodes(children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>) {
     return children.map(child => typeof child === "string" ? hString(child) : child);
 }
 
@@ -41,7 +44,7 @@ function hString(str: string) {
     return { type: DOM_TYPES.TEXT, value: str }
 }
 
-export function hFragment(children: Array<VirtualNodeType | VirtualFragmentNode>) {
+export function hFragment(children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>) {
     return {
         children,
         type: DOM_TYPES.FRAGMENT
