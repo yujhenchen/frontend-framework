@@ -17,7 +17,7 @@ export type ElementNodeType = {
 };
 
 // return a virtual node object
-export function h(tag: DomType, props: PropsType = {}, children: Array<null | ElementNodeType | string>) {
+export function h(tag: string, props: PropsType = {}, children: Array<null | ElementNodeType | string>) {
     return {
         tag,
         props,
@@ -34,7 +34,7 @@ function hString(str: string) {
     return { type: DOM_TYPES.TEXT, value: str }
 }
 
-function hFragment(children: Array<null | ElementNodeType | string>) {
+export function hFragment(children: Array<null | ElementNodeType | string>) {
     return {
         type: DOM_TYPES.FRAGMENT,
         children: mapTextNodes(withoutNulls(children))
