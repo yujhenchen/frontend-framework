@@ -8,26 +8,28 @@ export const DOM_TYPES = {
 
 type PropsType = Record<string | number | symbol, unknown>;
 
-export interface VirtualNode {
+export interface ElementNode {
     tag: string,
     props: PropsType,
-    children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>,
+    children: Array<VirtualNodeType>,
     type: typeof DOM_TYPES.ELEMENT
 }
 
-export interface VirtualFragmentNode {
-    children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>,
+export interface FragmentNode {
+    children: Array<VirtualNodeType>,
     type: typeof DOM_TYPES.FRAGMENT;
 }
 
-export interface VirtualTextNode {
+export interface TextNode {
     type: typeof DOM_TYPES.TEXT,
     value: string
 }
 
+export type VirtualNodeType = null | string | ElementNode | TextNode | FragmentNode;
+
 // NOTE: return a virtual node object
 export function h(tag: string, props: PropsType = {}, 
-    children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>) {
+    children: Array<VirtualNodeType>) {
     return {
         tag,
         props,
@@ -36,7 +38,7 @@ export function h(tag: string, props: PropsType = {},
     }
 }
 
-function mapTextNodes(children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>) {
+function mapTextNodes(children: Array<VirtualNodeType>) {
     return children.map(child => typeof child === "string" ? hString(child) : child);
 }
 
@@ -44,7 +46,7 @@ function hString(str: string) {
     return { type: DOM_TYPES.TEXT, value: str }
 }
 
-export function hFragment(children: Array<null | string | VirtualNode | VirtualTextNode | VirtualFragmentNode>) {
+export function hFragment(children: Array<VirtualNodeType>) {
     return {
         children,
         type: DOM_TYPES.FRAGMENT
