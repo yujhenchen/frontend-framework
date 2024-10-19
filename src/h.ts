@@ -6,14 +6,16 @@ export const DOM_TYPES = {
     FRAGMENT: 'fragment',
 } as const;
 
-type DomType = typeof DOM_TYPES[keyof typeof DOM_TYPES];
+// type DomType = typeof DOM_TYPES[keyof typeof DOM_TYPES];
 
 type PropsType = Record<string | number | symbol, unknown>;
 
+type VirtualNodeType = ReturnType<typeof h>;
+
 export type ElementNodeType = {
-    tag: DomType,
+    tag: string,
     props: PropsType,
-    children: Array<null | ElementNodeType| string>
+    children: Array< ElementNodeType| string>
 };
 
 // return a virtual node object
@@ -34,9 +36,12 @@ function hString(str: string) {
     return { type: DOM_TYPES.TEXT, value: str }
 }
 
-export function hFragment(children: Array<null | ElementNodeType | string>) {
+export function hFragment(children: Array<VirtualNodeType>
+    // Array<null | ElementNodeType | string>
+) {
     return {
         type: DOM_TYPES.FRAGMENT,
-        children: mapTextNodes(withoutNulls(children))
+        children
+        // : mapTextNodes(withoutNulls(children))
     }
 }
