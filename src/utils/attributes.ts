@@ -45,8 +45,15 @@ function setClass(el: Element, className: string | Array<string>) {
  * The CSSStyleDeclaration interface represents an object that is a CSS declaration block,
  *  and exposes style information and various style-related methods and properties.
  */
-function setStyle(el: Element, prop, value) {
+function setStyle<T extends keyof CSSStyleDeclaration>(
+    el: HTMLElement, 
+    name: T, 
+    value: CSSStyleDeclaration[T]) {
+        el.style[name] = value;
+}
 
+function removeStyle<T extends keyof CSSStyleDeclaration>(el: HTMLElement, name: T) {
+    el.style[name] = "" as CSSStyleDeclaration[T]; // TODO: try to find another way instead of type casting
 }
 
 function setArrtibute(el: Element, name, value) {
