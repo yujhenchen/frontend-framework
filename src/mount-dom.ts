@@ -1,4 +1,6 @@
-import { DOM_TYPES, type ElementNode, type FragmentNode, type TextNode } from "./h";
+import { DOM_TYPES, type ElementNode, type FragmentNode, type Props, type TextNode, type VirtualNodeType } from "./h";
+import { setArrtibutes } from "./utils/attributes";
+import { addEventListeners } from "./utils/events";
 
 /**
  * 
@@ -6,8 +8,9 @@ import { DOM_TYPES, type ElementNode, type FragmentNode, type TextNode } from ".
  * @param parentEl https://developer.mozilla.org/en-US/docs/Web/API/Element
  */
 // TODO: Node vs Element vs HTMLElement
-export function mountDOM(vdom: ElementNode | FragmentNode | TextNode, parentEl: Element) {
-    switch (vdom.type) {
+export function mountDOM(vdom: VirtualNodeType, parentEl: Element) {
+    const vdomType = vdom.type
+    switch (vdomType) {
         case DOM_TYPES.TEXT:
             createTextNode(vdom, parentEl);
             break;
@@ -18,7 +21,7 @@ export function mountDOM(vdom: ElementNode | FragmentNode | TextNode, parentEl: 
             createFragmentNodes(vdom, parentEl);
             break;
         default:
-            throw new Error(`Cannot mount DOM of tyoe: ${vdom.type}`);
+            throw new Error(`Cannot mount DOM of tyoe: ${vdomType}`);
     }
 }
 
@@ -30,10 +33,6 @@ function createTextNode(vdom: TextNode, parentEl: Element) {
     parentEl.append(textNode)
 }
 
-function createElementNode(vdom: ElementNode, parentEl: Element) {
-    
-}
-
 function createFragmentNodes(vdom: FragmentNode, parentEl: Element) {
     const { children } = vdom;
     vdom.el = parentEl;
@@ -43,4 +42,22 @@ function createFragmentNodes(vdom: FragmentNode, parentEl: Element) {
             mountDOM(child, parentEl);
         }
     })
+}
+
+function createElementNode(vdom: ElementNode, parentEl: Element) {
+    const { tag, props, children } = vdom;
+
+    const element = document.createElement(tag);
+    addProps(element, props, vdom);
+    vdom.el = element;
+
+    children.forEach(child => mountDOM(child, element));
+    parentEl.append(element);
+}
+
+function addProps(el: Element, props: Props, vdom: ElementNode){
+    const { on: events, ...attrs } = props;
+
+    vdom.listeners = addEventListeners(events, el);
+    setArrtibutes(el, attrs);
 }
