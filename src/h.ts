@@ -25,11 +25,10 @@ export interface TextNode {
     value: string
 }
 
-export type VirtualNodeType = null | string | ElementNode | TextNode | FragmentNode;
+export type VirtualNodeType = ElementNode | TextNode | FragmentNode;
 
 // NOTE: return a virtual node object
-export function h(tag: string, props: PropsType = {}, 
-    children: Array<VirtualNodeType>) {
+export function h(tag: string, props: PropsType = {}, children: Array<VirtualNodeType | null | string>) {
     return {
         tag,
         props,
@@ -38,7 +37,7 @@ export function h(tag: string, props: PropsType = {},
     }
 }
 
-function mapTextNodes(children: Array<VirtualNodeType>) {
+function mapTextNodes(children: Array<VirtualNodeType | string>) {
     return children.map(child => typeof child === "string" ? hString(child) : child);
 }
 
@@ -46,9 +45,9 @@ function hString(str: string) {
     return { type: DOM_TYPES.TEXT, value: str }
 }
 
-export function hFragment(children: Array<VirtualNodeType>) {
+export function hFragment(children: Array<VirtualNodeType | null | string>) {
     return {
-        children,
+        children: mapTextNodes(withoutNulls(children)),
         type: DOM_TYPES.FRAGMENT
     }
 }
