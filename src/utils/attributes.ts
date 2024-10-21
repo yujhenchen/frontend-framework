@@ -12,7 +12,7 @@ export function setArrtibutes(el: Element, attrs) {
     }
 
     for(const [name, value] of Object.entries(otherAttrs)) {
-        setArrtibute(el, name, value);
+        setAttribute(el, name, value);
     }
 }
 
@@ -56,6 +56,20 @@ function removeStyle<T extends keyof CSSStyleDeclaration>(el: HTMLElement, name:
     el.style[name] = "" as CSSStyleDeclaration[T]; // TODO: try to find another way instead of type casting
 }
 
-function setArrtibute(el: Element, name, value) {
+function setAttribute(el: HTMLElement, name: string, value: string) {
+    // value is null or undefined
+    if(value == null) {
+        removeAttribute(el, name);
+    }
+    else if (name.startsWith("data-")) {
+        el.setAttribute(name, value);
+    }
+    else {
+        el[name] = value;
+    }
+}
 
+function removeAttribute(el: HTMLElement, name: string) {
+    el[name] = null;
+    el.removeAttribute(name);
 }
