@@ -70,6 +70,6 @@ function setAttribute(el: HTMLElement, name: string, value: string) {
 }
 
 function removeAttribute(el: HTMLElement, name: string) {
-    el[name] = null;
+    // el[name] = null;  // TODO: may not need this. Get error "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'HTMLElement'. No index signature with a parameter of type 'string' was found on type 'HTMLElement'"
     el.removeAttribute(name);
 }
