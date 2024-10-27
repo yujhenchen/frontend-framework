@@ -1,71 +1,69 @@
-export function setArrtibutes(el: Element, attrs) {
+export function setAttributes(el: HTMLElement, attrs: { class: string, style: Partial<CSSStyleDeclaration>, otherAttrs }) {
     const { class: className, style, ...otherAttrs } = attrs;
 
-    if(className) {
+    if (className) {
         setClass(el, className);
     }
 
-    if(style) {
+    if (style) {
         Object.entries(style).forEach(([prop, value]) => {
-            setStyle(el, prop, value);
+            const cssProp = prop as keyof CSSStyleDeclaration;
+            const cssValue = value as CSSStyleDeclaration[typeof cssProp];
+            setStyle(el, cssProp, cssValue);
         });
     }
 
-    for(const [name, value] of Object.entries(otherAttrs)) {
+    for (const [name, value] of Object.entries(otherAttrs)) {
         setAttribute(el, name, value);
     }
 }
 
 /**
- * 
- * @param el 
- * @param className 
- * 
+ * Note
  * The DOMTokenList interface represents a set of space-separated tokens. 
  * Such a set is returned by Element.classList or HTMLLinkElement.relList, and many others. 
  */
 function setClass(el: Element, className: string | Array<string>) {
     el.className = "";
 
-    if(typeof className === "string") {
+    if (typeof className === "string") {
         el.className = className;
     }
 
-    if(Array.isArray(className)) {
+    if (Array.isArray(className)) {
         el.classList.add(...className);
     }
 }
 
 /**
- * 
- * @param el 
- * @param prop 
- * @param value 
- * 
- * The CSSStyleDeclaration interface represents an object that is a CSS declaration block,
+ * NOTE
+ * - The CSSStyleDeclaration interface represents an object that is a CSS declaration block,
  *  and exposes style information and various style-related methods and properties.
  */
 function setStyle<T extends keyof CSSStyleDeclaration>(
-    el: HTMLElement, 
-    name: T, 
+    el: HTMLElement,
+    prop: T,
     value: CSSStyleDeclaration[T]) {
-        el.style[name] = value;
+    el.style[prop] = value;
 }
 
-function removeStyle<T extends keyof CSSStyleDeclaration>(el: HTMLElement, name: T) {
-    el.style[name] = "" as CSSStyleDeclaration[T]; // TODO: try to find another way instead of type casting
+// function removeStyle<T extends keyof CSSStyleDeclaration>(el: HTMLElement, prop: T) {
+//     el.style[prop] = "" as CSSStyleDeclaration[T]; // NOTE: Type assertion to allow empty string
+// }
+function removeStyle(el: HTMLElement, prop: string) {
+    el.style.removeProperty(prop);
 }
 
 function setAttribute(el: HTMLElement, name: string, value: string) {
     // value is null or undefined
-    if(value == null) {
+    if (value == null) {
         removeAttribute(el, name);
     }
     else if (name.startsWith("data-")) {
         el.setAttribute(name, value);
     }
     else {
-        el[name] = value;
+        el.setAttribute(name, "")
     }
 }
 
