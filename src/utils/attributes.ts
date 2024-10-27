@@ -1,4 +1,10 @@
-export function setAttributes(el: HTMLElement, attrs: { class: string, style: Partial<CSSStyleDeclaration>, otherAttrs }) {
+interface Attrs {
+    class: string;
+    style: Partial<CSSStyleDeclaration>;
+    [key: string]: string | Partial<CSSStyleDeclaration>;
+}
+
+export function setAttributes(el: HTMLElement, attrs: Attrs) {
     const { class: className, style, ...otherAttrs } = attrs;
 
     if (className) {
@@ -14,7 +20,9 @@ export function setAttributes(el: HTMLElement, attrs: { class: string, style: Pa
     }
 
     for (const [name, value] of Object.entries(otherAttrs)) {
-        setAttribute(el, name, value);
+        if (typeof value === "string") {
+            setAttribute(el, name, value);
+        }
     }
 }
 
@@ -51,6 +59,7 @@ function setStyle<T extends keyof CSSStyleDeclaration>(
 //     el.style[prop] = "" as CSSStyleDeclaration[T]; // NOTE: Type assertion to allow empty string
 // }
 function removeStyle(el: HTMLElement, prop: string) {
+    // el.style[prop] = null; // TODO: this get error: Element implicitly has an 'any' type because index expression is not of type 'number'.ts(7015)
     el.style.removeProperty(prop);
 }
 
@@ -59,12 +68,13 @@ function setAttribute(el: HTMLElement, name: string, value: string) {
     if (value == null) {
         removeAttribute(el, name);
     }
-    else if (name.startsWith("data-")) {
-        el.setAttribute(name, value);
-    }
-    else {
-        el.setAttribute(name, "")
-    }
+    // else if (name.startsWith("data-")) {
+    //     el.setAttribute(name, value);
+    // }
+    // else {
+    //     el[name] = value; // TODO: get error Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'HTMLElement'.
+    // }
+    el.setAttribute(name, value);
 }
 
 function removeAttribute(el: HTMLElement, name: string) {
