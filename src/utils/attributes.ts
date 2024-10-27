@@ -7,12 +7,12 @@ export function setAttributes(el: Element, attrs: Attrs) {
         setClass(el, className);
     }
 
-    if (style) {
-        const htmlEl = el as HTMLElement;
+    const isHTMLEl = el instanceof HTMLElement; // NOTE: the style property belongs to HTMLElement
+    if (style && isHTMLEl) {
         Object.entries(style).forEach(([prop, value]) => {
             const cssProp = prop as keyof CSSStyleDeclaration;
             const cssValue = value as CSSStyleDeclaration[typeof cssProp];
-            setStyle(htmlEl, cssProp, cssValue);
+            setStyle(el, cssProp, cssValue);
         });
     }
 
