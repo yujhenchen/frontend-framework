@@ -1,10 +1,6 @@
-interface Attrs {
-    class: string;
-    style: Partial<CSSStyleDeclaration>;
-    [key: string]: string | Partial<CSSStyleDeclaration>;
-}
+import type { Attrs } from "./interfaces";
 
-export function setAttributes(el: HTMLElement, attrs: Attrs) {
+export function setAttributes(el: Element, attrs: Attrs) {
     const { class: className, style, ...otherAttrs } = attrs;
 
     if (className) {
@@ -12,10 +8,11 @@ export function setAttributes(el: HTMLElement, attrs: Attrs) {
     }
 
     if (style) {
+        const htmlEl = el as HTMLElement;
         Object.entries(style).forEach(([prop, value]) => {
             const cssProp = prop as keyof CSSStyleDeclaration;
             const cssValue = value as CSSStyleDeclaration[typeof cssProp];
-            setStyle(el, cssProp, cssValue);
+            setStyle(htmlEl, cssProp, cssValue);
         });
     }
 
@@ -55,15 +52,12 @@ function setStyle<T extends keyof CSSStyleDeclaration>(
     el.style[prop] = value;
 }
 
-// function removeStyle<T extends keyof CSSStyleDeclaration>(el: HTMLElement, prop: T) {
-//     el.style[prop] = "" as CSSStyleDeclaration[T]; // NOTE: Type assertion to allow empty string
-// }
 function removeStyle(el: HTMLElement, prop: string) {
     // el.style[prop] = null; // TODO: this get error: Element implicitly has an 'any' type because index expression is not of type 'number'.ts(7015)
     el.style.removeProperty(prop);
 }
 
-function setAttribute(el: HTMLElement, name: string, value: string) {
+function setAttribute(el: Element, name: string, value: string) {
     // value is null or undefined
     if (value == null) {
         removeAttribute(el, name);
@@ -77,7 +71,7 @@ function setAttribute(el: HTMLElement, name: string, value: string) {
     el.setAttribute(name, value);
 }
 
-function removeAttribute(el: HTMLElement, name: string) {
+function removeAttribute(el: Element, name: string) {
     // el[name] = null;  // TODO: may not need this. Get error "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'HTMLElement'. No index signature with a parameter of type 'string' was found on type 'HTMLElement'"
     el.removeAttribute(name);
 }

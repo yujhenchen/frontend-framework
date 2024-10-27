@@ -1,6 +1,8 @@
-import { DOM_TYPES, type ElementNode, type FragmentNode, type Props, type TextNode, type VirtualNodeType } from "./h";
-import { setArrtibutes } from "./utils/attributes";
+import { DOM_TYPES } from "./h";
+import { setAttributes } from "./utils/attributes";
 import { addEventListeners } from "./utils/events";
+import type { ElementNode, FragmentNode, Props, TextNode } from "./utils/interfaces";
+import type { VirtualNodeType } from "./utils/types";
 
 /**
  * 
@@ -38,7 +40,7 @@ function createFragmentNodes(vdom: FragmentNode, parentEl: Element) {
     vdom.el = parentEl;
 
     children.forEach(child => {
-        if(child){
+        if (child) {
             mountDOM(child, parentEl);
         }
     })
@@ -55,9 +57,9 @@ function createElementNode(vdom: ElementNode, parentEl: Element) {
     parentEl.append(element);
 }
 
-function addProps(el: Element, props: Props, vdom: ElementNode){
+function addProps(el: Element, props: Props, vdom: ElementNode) {
     const { on: events, ...attrs } = props;
 
     vdom.listeners = addEventListeners(events, el);
-    setArrtibutes(el, attrs);
+    setAttributes(el, attrs);
 }

@@ -1,38 +1,12 @@
 import { withoutNulls } from "./utils/arrays"
+import type { Props } from "./utils/interfaces";
+import type { VirtualNodeType } from "./utils/types";
 
 export const DOM_TYPES = {
     TEXT: 'text',
     ELEMENT: 'element',
     FRAGMENT: 'fragment',
 } as const;
-
-// export type PropsType = Record<string | number | symbol, unknown>;
-export interface Props {
-    on?: Record<string, (event?: Event | undefined) => void>
-};
-
-export interface ElementNode {
-    tag: string,
-    props: Props,
-    children: Array<VirtualNodeType>,
-    type: typeof DOM_TYPES.ELEMENT,
-    el: Element | null,
-    listeners: Record<string, (event?: Event | undefined) => void>
-}
-
-export interface FragmentNode {
-    children: Array<VirtualNodeType>,
-    type: typeof DOM_TYPES.FRAGMENT,
-    el: Element | null
-}
-
-export interface TextNode {
-    type: typeof DOM_TYPES.TEXT,
-    value: string,
-    el: Text | null
-}
-
-export type VirtualNodeType = ElementNode | TextNode | FragmentNode;
 
 // NOTE: return a virtual node object
 export function h(tag: string, props: Props | {} = {}, children: Array<VirtualNodeType | null | string>) {
