@@ -17,18 +17,18 @@ export interface ElementNode {
     props: Props,
     children: Array<VirtualNodeType>,
     type: typeof DOM_TYPES.ELEMENT,
-    el: Element | null,
+    el?: Element,
     listeners?: Record<string, (event?: Event | undefined) => void>
 }
 
 export interface FragmentNode {
     children: Array<VirtualNodeType>,
     type: typeof DOM_TYPES.FRAGMENT,
-    el: Element | null
+    el?: Element
 }
 
 export interface TextNode {
     type: typeof DOM_TYPES.TEXT,
     value: string,
-    el: Text | null
+    el?: Text
 }
