@@ -5,7 +5,7 @@ import type { VirtualNodeType } from "./types";
 export interface Attrs {
     class: string;
     style: Partial<CSSStyleDeclaration>;
-    [key: string]: string | Partial<CSSStyleDeclaration>;
+    [key: string]: unknown;
 }
 
 export interface Props extends Attrs {

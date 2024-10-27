@@ -16,6 +16,10 @@ export function setAttributes(el: Element, attrs: Attrs) {
         });
     }
 
+    /**
+     * NOTE
+     * although typeof `value` is unknown, after assigning value to `value`, `value` holds a string data type (at the runtime)
+     */
     for (const [name, value] of Object.entries(otherAttrs)) {
         if (typeof value === "string") {
             setAttribute(el, name, value);
