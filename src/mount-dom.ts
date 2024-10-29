@@ -1,8 +1,8 @@
+import { setAttributes } from "./attributes";
+import { addEventListeners } from "./events";
 import { DOM_TYPES } from "./h";
-import { setAttributes } from "./utils/attributes";
-import { addEventListeners } from "./utils/events";
-import type { ElementNode, FragmentNode, Props, TextNode } from "./utils/interfaces";
-import type { VirtualNodeType } from "./utils/types";
+import type { ElementNode, FragmentNode, Props, TextNode } from "./interfaces";
+import type { VirtualNodeType } from "./types";
 
 /**
  * 

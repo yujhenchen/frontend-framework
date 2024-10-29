@@ -1,4 +1,4 @@
-import type { DOM_TYPES } from "../h";
+import type { DOM_TYPES } from "./h";
 import type { VirtualNodeType } from "./types";
 
 

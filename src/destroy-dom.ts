@@ -1,6 +1,6 @@
 import { DOM_TYPES } from "./h";
-import type { ElementNode, FragmentNode, TextNode } from "./utils/interfaces";
-import type { VirtualNodeType } from "./utils/types";
+import type { ElementNode, FragmentNode, TextNode } from "./interfaces";
+import type { VirtualNodeType } from "./types";
 
 export function destroyDOM(vdom: VirtualNodeType) {
     const { type } = vdom;

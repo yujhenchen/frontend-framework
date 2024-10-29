@@ -1,6 +1,6 @@
+import type { Props } from "./interfaces";
+import type { VirtualNodeType } from "./types";
 import { withoutNulls } from "./utils/arrays"
-import type { Props } from "./utils/interfaces";
-import type { VirtualNodeType } from "./utils/types";
 
 export const DOM_TYPES = {
     TEXT: 'text',
