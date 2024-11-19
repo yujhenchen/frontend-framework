@@ -1,6 +1,6 @@
 export class Dispatcher {
     private subs = new Map<string, Array<(...args: Array<unknown>) => unknown>>();
-    private afterHandlers: Array<((...args: unknown[]) => unknown)> = [];
+    private afterHandlers: Array<((...args: Array<unknown>) => unknown)> = [];
 
     public subscribe(commandName: string, handler: (...args: Array<unknown>) => unknown) {
         if (!this.subs.has(commandName)) {
