@@ -1,8 +1,8 @@
 export class Dispatcher {
-    private subs = new Map<string, Array<(...args: unknown[]) => unknown>>();
-    private afterHandlers: ((...args: unknown[]) => unknown)[] = [];
+    private subs = new Map<string, Array<(...args: Array<unknown>) => unknown>>();
+    private afterHandlers: Array<((...args: unknown[]) => unknown)> = [];
 
-    public subscribe(commandName: string, handler: (...args: unknown[]) => unknown) {
+    public subscribe(commandName: string, handler: (...args: Array<unknown>) => unknown) {
         if (!this.subs.has(commandName)) {
             this.subs.set(commandName, []);
         }
@@ -26,12 +26,22 @@ export class Dispatcher {
         }
     }
 
-    public afterEveryCommand(handler: (...args: unknown[]) => unknown) {
+    public afterEveryCommand(handler: (...args: Array<unknown>) => unknown) {
         this.afterHandlers.push(handler);
 
         return () => {
             const idx = this.afterHandlers.indexOf(handler);
             this.afterHandlers.splice(idx, 1);
         }
+    }
+
+    public dispatch(commandName: string, payload: Array<unknown>) {
+        if (this.subs.has(commandName)) {
+            this.subs.get(commandName)?.forEach(handler => handler(payload));
+        }
+        else {
+            console.log(`No handlers for the command ${commandName}`);
+        }
+        this.afterHandlers.forEach(handler => handler());
     }
 }
