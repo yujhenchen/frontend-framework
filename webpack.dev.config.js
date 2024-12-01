@@ -1,7 +1,7 @@
 const path = require("path");
 // const TerserPlugin = require("terser-webpack-plugin");
 
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+// const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
   entry: "./src/index.ts",
@@ -27,5 +27,11 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
-  plugins: [new BundleAnalyzerPlugin()],
+  // devServer: {
+  //   static: path.join(__dirname, "dist"),
+  // },
+  // optimization: {
+  //   runtimeChunk: "single",
+  // },
+  // plugins: [new BundleAnalyzerPlugin()],
 };
