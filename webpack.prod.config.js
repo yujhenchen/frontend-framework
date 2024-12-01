@@ -19,9 +19,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    // chunkFilename: "[name].js",
     filename: "index.js",
-    library: { name: "simpleFramework", type: "umd" },
+    library: { type: "umd" },
   },
   optimization: {
     minimize: true,

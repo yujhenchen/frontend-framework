@@ -1,6 +1,6 @@
 {
   "name": "simple-frontend-framework",
-  "version": "1.0.5",
+  "version": "0.0.1",
   "description": "a simple framework",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,6 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
     "webpack": "^5.96.1",
-    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4"
   }
 }
