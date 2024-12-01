@@ -1,0 +1,14 @@
+{
+  "name": "example-use-simple-frontend-framework",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "simple-frontend-framework": "^0.0.1"
+  }
+}
