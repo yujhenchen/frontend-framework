@@ -9,7 +9,6 @@ import type { VirtualNodeType } from "./types";
  * @param vdom 
  * @param parentEl https://developer.mozilla.org/en-US/docs/Web/API/Element
  */
-// TODO: Node vs Element vs HTMLElement
 export function mountDOM(vdom: VirtualNodeType, parentEl: Element) {
     const vdomType = vdom.type
     switch (vdomType) {
