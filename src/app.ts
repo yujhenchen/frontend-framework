@@ -21,6 +21,10 @@ export function createApp({ state, view, reducers }: {
         subscriptions.push(subs);
     }
 
+    function emit(eventName: string, payload: Record<string, unknown>) {
+        dispatcher.dispatch(eventName, payload);
+    }
+
     function renderApp() {
         if (vdom) {
             destroyDOM(vdom);
@@ -39,6 +43,14 @@ export function createApp({ state, view, reducers }: {
         mount(_parentEl: Element) {
             parentEl = _parentEl;
             renderApp();
+        },
+
+        unmount() {
+            if (vdom) {
+                destroyDOM(vdom);
+            }
+            vdom = null;
+            subscriptions.forEach((unsubscribe) => unsubscribe());
         }
     }
 }
