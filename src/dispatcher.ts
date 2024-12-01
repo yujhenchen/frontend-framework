@@ -1,8 +1,8 @@
 export class Dispatcher {
-    private subs = new Map<string, Array<(...args: Array<unknown>) => unknown>>();
-    private afterHandlers: Array<((...args: Array<unknown>) => unknown)> = [];
+    private subs = new Map<string, Array<(payload: Record<string, unknown>) => unknown>>();
+    private afterHandlers: Array<((payload?: Record<string, unknown>) => unknown)> = [];
 
-    public subscribe(commandName: string, handler: (...args: Array<unknown>) => unknown) {
+    public subscribe(commandName: string, handler: (payload: Record<string, unknown>) => unknown) {
         if (!this.subs.has(commandName)) {
             this.subs.set(commandName, []);
         }
@@ -26,7 +26,7 @@ export class Dispatcher {
         }
     }
 
-    public afterEveryCommand(handler: (...args: Array<unknown>) => unknown) {
+    public afterEveryCommand(handler: (payload?: Record<string, unknown>) => unknown) {
         this.afterHandlers.push(handler);
 
         return () => {
@@ -35,7 +35,7 @@ export class Dispatcher {
         }
     }
 
-    public dispatch(commandName: string, payload: Array<unknown>) {
+    public dispatch(commandName: string, payload: Record<string, unknown>) {
         if (this.subs.has(commandName)) {
             this.subs.get(commandName)?.forEach(handler => handler(payload));
         }
