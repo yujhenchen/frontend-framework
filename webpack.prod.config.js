@@ -8,7 +8,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts?$/,
         use: "ts-loader",
         exclude: /node_modules/,
       },
@@ -18,8 +18,10 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
+    // chunkFilename: "[name].js",
+    filename: "index.js",
+    library: { name: "simpleFramework", type: "umd" },
   },
   optimization: {
     minimize: true,

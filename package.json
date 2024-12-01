@@ -1,8 +1,12 @@
 {
-  "name": "frontend-framework",
-  "version": "1.0.0",
-  "description": "Webpack as a Bundler",
-  "main": "index.ts",
+  "name": "simple-frontend-framework",
+  "version": "1.0.5",
+  "description": "a simple framework",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build:dev": "webpack --config webpack.dev.config.js",
     "build:prod": "webpack --config webpack.prod.config.js"
