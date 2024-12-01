@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    // Use `"module": "es6"` if you rely on modern bundlers or tree-shaking.
+    "module": "es6",
+    // Use `"target": "es5"` if you need to support legacy browsers.
+    "target": "es5",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "node"
+  }
+}

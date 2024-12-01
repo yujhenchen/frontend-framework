@@ -1,0 +1,21 @@
+{
+  "name": "frontend-framework",
+  "version": "1.0.0",
+  "description": "Webpack as a Bundler",
+  "main": "index.ts",
+  "scripts": {
+    "build:dev": "webpack --config webpack.dev.config.js",
+    "build:prod": "webpack --config webpack.prod.config.js"
+  },
+  "keywords": [],
+  "author": "Jen C.",
+  "license": "MIT",
+  "devDependencies": {
+    "terser-webpack-plugin": "^5.3.10",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.96.1",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
